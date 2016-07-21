@@ -1,23 +1,24 @@
 require('babel-polyfill');
 
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CleanPlugin = require('clean-webpack-plugin');
-var strip = require('strip-loader');
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanPlugin = require('clean-webpack-plugin');
+const strip = require('strip-loader');
 const validate = require('webpack-validator');
 
-var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
-var webpackIsomorphicSettings = require('./webpack-isomorphic-tools-configuration');
+const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+const webpackIsomorphicSettings = require('./webpack-isomorphic-tools-configuration');
 const webpackPluginConfig = new WebpackIsomorphicToolsPlugin(webpackIsomorphicSettings);
 
 const paths = {
-  root: path.resolve(__dirname, ".."),
+  root: path.resolve(__dirname, '..'),
   output: path.resolve(__dirname, '../dist'),
-  source: path.resolve(__dirname, "..", "src"),
-  nodeModules: path.resolve(__dirname, "..", 'node_modules')
+  source: path.resolve(__dirname, '..', 'src'),
+  nodeModules: path.resolve(__dirname, '..', 'node_modules')
 };
 
+// noinspection Eslint
 module.exports = validate({
   devtool: 'source-map',
   context: paths.root,
@@ -34,17 +35,11 @@ module.exports = validate({
   },
   plugins: [
     new CleanPlugin([paths.output], { root: paths.root }),
-    new ExtractTextPlugin('[name]-[chunkhash].css', {allChunks: true}),
+    new ExtractTextPlugin('[name]-[chunkhash].css', { allChunks: true }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      },
-      __CLIENT__: true,
-      __SERVER__: false,
       __DEVELOPMENT__: false,
-      __DEVTOOLS__: false,
     }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {

@@ -28,8 +28,8 @@ const server = new WebpackDevServer(compiler, serverOptions);
 // Run the two servers
 server.listen(serverPort, host, (err, result) => {
   if (err) {
-    return console.log(err);
+    throw err;
   }
-  console.info('WebpackDevServer running at serverPort %s', serverPort)
-
+  console.info(`WebpackDevServer running at serverPort=${serverPort}, result=${result}`);
 });
+
